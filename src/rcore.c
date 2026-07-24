@@ -2859,13 +2859,13 @@ bool IsPathAbsolute(const char *path)
     if ((path != NULL) && (path[0] != '\0'))
     {
 #if defined(_WIN32)
-        // UNC path (\\server\share)
+        // Check UNC path (\\server\share)
         if ((path[0] == '\\') && (path[1] == '\\')) result = true;
-        // Drive letter (e.g. C:\ or D:/)
-        else if (isalpha((unsigned char)path[0]) && (path[1] == ':') &&
-            ((path[2] == '\\') || (path[2] == '/'))) result = true;
+        // Check path starts with a drive letter (e.g. C:\ or D:/)
+        else if ((((path[0] >= 'A') && (path[0] <= 'Z')) || ((path[0] >= 'a') && (path[0] <= 'z'))) && 
+                 (path[1] != '\0') && (path[1] == ':') && (path[2] != '\0') && ((path[2] == '\\') || (path[2] == '/'))) result = true;
 #else
-        // POSIX: must start with /
+        // Check POSIX path, must start with /
         if (path[0] == '/') result = true;
 #endif
     }
